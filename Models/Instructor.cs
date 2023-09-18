@@ -23,7 +23,7 @@ namespace ChavezLA1.Models
 
         public Rank Rank { get; set; }
 
-        public DateOnly HiringDate { get; set; }
+        public DateTime HiringDate { get; set; }
 
     }
 }

@@ -2,6 +2,8 @@
 
 <h1>Instructor List</h1>
 
+<a href="@Url.Action("AddInstructor", "Instructor")" class="btn btn-primary">Add Instructor</a>
+
 <table class="table table-striped table-dark">
 
     <tr>
@@ -12,6 +14,7 @@
         <td>Rank</td>
         <td>Hiring Date</td>
         <td>Details</td>
+        <td>Update</td>
 
 
     </tr>
@@ -25,6 +28,7 @@
             <td>@Instructor.Rank</td>
             <td>@Instructor.HiringDate</td>
             <td><a asp-action="ShowDetail" asp-route-id="@Instructor.Id">Show Details</a></td>
+            <td><a asp-action="Edit" asp-route-id="@Instructor.Id">Edit</a></td>
         </tr>
     }
 </table>

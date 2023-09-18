@@ -1,0 +1,46 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@model Instructor;
+
+<h1>Add Instructor</h1>
+
+<form asp-action="AddInstructor" method="post">
+    <div class="form-group">
+        <label asp-for="Id">ID</label>
+        <input asp-for="Id" class="form-control" />    
+    </div>
+    <div class="form-group">
+        <label asp-for="FirstName">First Name</label>
+        <input asp-for="FirstName" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="LastName">Last Name</label>
+        <input asp-for="LastName" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label for="IsTenured">Status</label>
+          <select asp-for="IsTenured" class="form-control">
+                @foreach (var IsTenured in Enum.GetValues(typeof(IsTenured)))
+                {
+                    <option value="@IsTenured">@IsTenured</option>
+                }
+          </select>
+    </div>
+    <div class="form-group">
+         <label for="Rank">Rank</label>
+          <select asp-for="Rank" class="form-control">
+                @foreach (var rank in Enum.GetValues(typeof(Rank)))
+                {
+                    <option value="@rank">@rank</option>
+                }
+          </select>
+    </div>
+    <div class="form-group">
+        <label asp-for="HiringDate">Hiring Date</label>
+          <input asp-for="HiringDate" class="form-control">
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
