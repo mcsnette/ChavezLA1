@@ -13,18 +13,20 @@
         <td>DateEnrolled</td>
         <td>Show Details</td>
         <td>Update</td>
+        <td>Delete</td>
 
 
     </tr>
-    @foreach (var Instructor in Model)
+    @foreach (var Student in Model)
     {
         <tr>
-            <td>@Instructor.Id </td>
-            <td>@Instructor.Name</td>
-            <td>@Instructor.Course</td>
-            <td>@Instructor.DateEnrolled</td>
-            <td><a asp-action="ShowDetail" asp-route-id="@Instructor.Id">Show Details</a></td>
-            <td><a asp-action="Edit" asp-route-id="@Instructor.Id">Edit</a></td>
+            <td>@Student.Id </td>
+            <td>@Student.Name</td>
+            <td>@Student.Course</td>
+            <td>@Student.DateEnrolled</td>
+            <td><a asp-action="ShowDetail" asp-route-id="@Student.Id" class="btn btn-info">Show Details</a></td>
+            <td><a asp-action="Edit" asp-route-id="@Student.Id" class="btn btn-success">Edit</a></td>
+            <td><a asp-action="Delete" asp-route-id="@Student.Id" class="btn btn-danger">Delete</a></td>
         </tr>
     }
 </table>

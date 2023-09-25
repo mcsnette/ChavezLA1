@@ -15,6 +15,7 @@
         <td>Hiring Date</td>
         <td>Details</td>
         <td>Update</td>
+        <td>Delete</td>
 
 
     </tr>
@@ -27,8 +28,9 @@
             <td>@Instructor.IsTenured</td>
             <td>@Instructor.Rank</td>
             <td>@Instructor.HiringDate</td>
-            <td><a asp-action="ShowDetail" asp-route-id="@Instructor.Id">Show Details</a></td>
-            <td><a asp-action="Edit" asp-route-id="@Instructor.Id">Edit</a></td>
+            <td><a asp-action="ShowDetail" asp-route-id="@Instructor.Id" class="btn btn-info">Show Details</a></td>
+            <td><a asp-action="Edit" asp-route-id="@Instructor.Id" class="btn btn-success">Edit</a></td>
+            <td><a asp-action="Delete" asp-route-id="@Instructor.Id" class="btn btn-danger">Delete</a></td>
         </tr>
     }
 </table>

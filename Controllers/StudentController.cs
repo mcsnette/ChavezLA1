@@ -1,11 +1,25 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Xml.Linq;
+using Microsoft.AspNetCore.Mvc;
 using ChavezLA1.Models;
+using ChavezLA1.Services;
 
 
 namespace ChavezLA1.Controllers
 {
     public class StudentController : Controller
     {
+        private readonly IMyFakeDataService _fakeData;
+
+        public StudentController(IMyFakeDataService fakeData)
+        {
+            _fakeData = fakeData;
+        }
+
+
         List<Student> StudentList = new List<Student>
         {
             new Student()
@@ -32,12 +46,12 @@ namespace ChavezLA1.Controllers
         };
         public IActionResult Index()
         {
-            return View(StudentList);
+            return View(_fakeData.StudentList);
         }
 
         public IActionResult ShowDetail(int id)
         {
-            Student? Student = StudentList.FirstOrDefault(st => st.Id == id);
+            Student? Student = _fakeData.StudentList.FirstOrDefault(st => st.Id == id);
             if (Student != null)
             {
                 return View(Student);
@@ -54,13 +68,13 @@ namespace ChavezLA1.Controllers
         [HttpPost]
         public IActionResult AddStudent(Student newStudent)
         {
-            StudentList.Add(newStudent);
-            return View("Index", StudentList);
+            _fakeData.StudentList.Add(newStudent);
+            return RedirectToAction("Index");
         }
 
         public IActionResult Edit(int Id)
         {
-            Student? Student = StudentList.FirstOrDefault(st => st.Id == Id);
+            Student? Student = _fakeData.StudentList.FirstOrDefault(st => st.Id == Id);
             return Student != null ? View(Student) : NotFound();
         }
 
@@ -68,7 +82,7 @@ namespace ChavezLA1.Controllers
 
         public IActionResult Edit(Student studentChange)
         {
-            Student? Student = StudentList.FirstOrDefault(st => st.Id == studentChange.Id);
+            Student? Student = _fakeData.StudentList.FirstOrDefault(st => st.Id == studentChange.Id);
             if (Student != null)
             {
                 Student.Id = studentChange.Id;
@@ -76,8 +90,31 @@ namespace ChavezLA1.Controllers
                 Student.Course = studentChange.Course;
                 Student.DateEnrolled = studentChange.DateEnrolled;
             }
-            return View("Index", StudentList);
+            return RedirectToAction("Index");
+        }
+        [HttpGet]
+        public IActionResult Delete(Student studentDelete)
+        {
+            Student? Student = _fakeData.StudentList.FirstOrDefault(st => st.Id == studentDelete.Id);
+            if (Student != null)//was the instructor found?
+            {
+                return View(Student);
+            }
+
+            return NotFound();
+
+        }
+        [HttpPost]
+        public IActionResult Delete(int id)
+        {
+            Student? Student = _fakeData.StudentList.FirstOrDefault(st => st.Id == id);
+            if (Student != null)//was the student found?
+            {
+                _fakeData.StudentList.Remove(Student);
+                return RedirectToAction("Index");
+            }
+
+            return NotFound();
         }
     }
-
 }

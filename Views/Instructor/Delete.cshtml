@@ -5,24 +5,24 @@
 }
 @model Instructor;
 
-<h1>Edit Instructor</h1>
+<h1>Are you sure you want to delete this instructor?</h1>
 
-<form asp-action="Edit" method="post">
-    <div class="form-group" style="display: none;">
+<form asp-action="Delete" method="post">
+    <div class="form-group">
         <label asp-for="Id">ID</label>
-        <input asp-for="Id" class="form-control" />    
+        <input asp-for="Id" class="form-control" disabled/>    
     </div>
     <div class="form-group">
         <label asp-for="FirstName">First Name</label>
-        <input asp-for="FirstName" class="form-control" />
+        <input asp-for="FirstName" class="form-control" disabled/>
     </div>
     <div class="form-group">
         <label asp-for="LastName">Last Name</label>
-        <input asp-for="LastName" class="form-control" />
+        <input asp-for="LastName" class="form-control" disabled/>
     </div>
     <div class="form-group">
         <label for="IsTenured">Status</label>
-          <select asp-for="IsTenured" class="form-control">
+          <select asp-for="IsTenured" class="form-control" disabled>
                 @foreach (var IsTenured in Enum.GetValues(typeof(IsTenured)))
                 {
                     <option value="@IsTenured">@IsTenured</option>
@@ -31,7 +31,7 @@
     </div>
     <div class="form-group">
          <label for="Rank">Rank</label>
-          <select asp-for="Rank" class="form-control">
+          <select asp-for="Rank" class="form-control" disabled>
                 @foreach (var rank in Enum.GetValues(typeof(Rank)))
                 {
                     <option value="@rank">@rank</option>
@@ -40,9 +40,9 @@
     </div>
     <div class="form-group">
         <label asp-for="HiringDate">Hiring Date</label>
-          <input asp-for="HiringDate" class="form-control">
+          <input asp-for="HiringDate" class="form-control" disabled>
     </div>
 
-    <button type="submit" class="btn btn-success">Update</button>
+    <button type="submit" class="btn btn-danger">Delete</button>
     <button type="button" onClick="history.back()" class="btn btn-secondary">Cancel</button>
 </form>

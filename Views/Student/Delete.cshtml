@@ -5,20 +5,20 @@
 }
 @model Student;
 
-<h1>Edit Student</h1>
+<h1>Are you sure you want to delete this student?</h1>
 
-<form asp-action="Edit" method="post">
-    <div class="form-group" style="display: none;">
+<form asp-action="Delete" method="post">
+    <div class="form-group">
         <label asp-for="Id">ID</label>
-        <input asp-for="Id" class="form-control" />
+        <input asp-for="Id" class="form-control" disabled/>
     </div>
     <div class="form-group">
         <label asp-for="Name">Name</label>
-        <input asp-for="Name" class="form-control" />
+        <input asp-for="Name" class="form-control" disabled/>
     </div>
     <div class="form-group">
         <label for="IsTenured">Course</label>
-        <select asp-for="Course" class="form-control">
+        <select asp-for="Course" class="form-control" disabled>
             @foreach (var Course in Enum.GetValues(typeof(Course)))
             {
                 <option value="@Course">@Course</option>
@@ -28,9 +28,9 @@
 
     <div class="form-group">
         <label asp-for="DateEnrolled">Date Enrolled</label>
-        <input asp-for="DateEnrolled" class="form-control">
+        <input asp-for="DateEnrolled" class="form-control" disabled>
     </div>
-    <button type="submit" class="btn btn-success">Update</button>
+    <button type="submit" class="btn btn-danger">Delete</button>
     <button type="button" onClick="history.back()" class="btn btn-secondary">Cancel</button>
 
 </form>

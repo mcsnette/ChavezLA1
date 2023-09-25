@@ -1,10 +1,17 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ChavezLA1.Models;
+using ChavezLA1.Services;
 
 namespace ChavezLA1.Controllers
 {
     public class InstructorController : Controller
     {
+        private readonly IMyFakeDataService _fakeData;
+
+        public InstructorController(IMyFakeDataService fakeData)
+        {
+            _fakeData = fakeData;
+        }
 
         List<Instructor> InstructorList = new List<Instructor>
         {
@@ -47,12 +54,12 @@ namespace ChavezLA1.Controllers
         };
         public IActionResult Index()
         {
-            return View(InstructorList);
+            return View(_fakeData.InstructorList);
         }
 
         public IActionResult ShowDetail(int id)
         {
-            Instructor? Instructor = InstructorList.FirstOrDefault(st => st.Id == id);
+            Instructor? Instructor = _fakeData.InstructorList.FirstOrDefault(st => st.Id == id);
             if (Instructor != null)
             {
                 return View(Instructor);
@@ -69,12 +76,12 @@ namespace ChavezLA1.Controllers
         [HttpPost]
         public IActionResult AddInstructor(Instructor newInstructor)
         {
-            InstructorList.Add(newInstructor);
-            return View("Index", InstructorList);
+            _fakeData.InstructorList.Add(newInstructor);
+            return RedirectToAction("Index");
         }
 
         public IActionResult Edit(int Id) {
-            Instructor? Instructor = InstructorList.FirstOrDefault(st => st.Id == Id);
+            Instructor? Instructor = _fakeData.InstructorList.FirstOrDefault(st => st.Id == Id);
             return Instructor != null ? View(Instructor) : NotFound();
         }
 
@@ -82,7 +89,7 @@ namespace ChavezLA1.Controllers
 
         public IActionResult Edit(Instructor instructorChange)
         {
-            Instructor? Instructor = InstructorList.FirstOrDefault(st => st.Id == instructorChange.Id);
+            Instructor? Instructor = _fakeData.InstructorList.FirstOrDefault(st => st.Id == instructorChange.Id);
                 if(Instructor != null)
             {
                 Instructor.Id= instructorChange.Id;
@@ -92,8 +99,32 @@ namespace ChavezLA1.Controllers
                 Instructor.Rank = instructorChange.Rank;
                 Instructor.HiringDate = instructorChange.HiringDate;
             }
-                return View("Index", InstructorList);
+                return RedirectToAction("Index");
         }
-     }
+        [HttpGet]
+        public IActionResult Delete(Instructor instructorDelete)
+        {
+            Instructor? Instructor = _fakeData.InstructorList.FirstOrDefault(st => st.Id == instructorDelete.Id);
+            if (Instructor != null)//was the instructor found?
+            {
+                return View(Instructor);
+            }
+
+            return NotFound();
+
+        }
+        [HttpPost]
+        public IActionResult Delete(int id)
+        {
+            Instructor? Instructor = _fakeData.InstructorList.FirstOrDefault(st => st.Id == id);
+            if (Instructor != null)//was the instructor found?
+            {
+                _fakeData.InstructorList.Remove(Instructor);
+                return RedirectToAction("Index");
+            }
+
+            return NotFound();
+        }
+    }
 
 }
