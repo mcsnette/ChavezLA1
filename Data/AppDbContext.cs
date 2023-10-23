@@ -1,20 +1,21 @@
-﻿using System;
-using ChavezLA1.Models;
-using ChavezLA1.Services;
+﻿using ChavezLA1.Models;
+using Microsoft.EntityFrameworkCore;
 
-namespace ChavezLA1.Services
+namespace ChavezLA1.Data
 {
-    public class MyFakeDataService : IMyFakeDataService
+    public class AppDbContext : DbContext
     {
-        public List<Student> StudentList { get; }
-        public List<Instructor> InstructorList { get; }
+        public DbSet<Student> Students { get; set; }
+        public DbSet <Instructor> Instructors { get; set; }
 
-        //Constructor
-        public MyFakeDataService()
+        //constructor
+        public AppDbContext(DbContextOptions<AppDbContext>options) : base(options) {}
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            StudentList = new List<Student>()
-            {
-              new Student()
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<Student>().HasData(
+                new Student()
                 {
                     Id = 1,
                     Name = "Noel Cansino",
@@ -22,24 +23,22 @@ namespace ChavezLA1.Services
                     DateEnrolled = DateTime.Parse("28/09/2020")
                 },
               new Student()
-                {
-                    Id = 2,
-                    Name = "Lara Gatchalian",
-                    Course = Course.BSCS,
-                    DateEnrolled = DateTime.Parse("28/09/2020")
-                },
+              {
+                  Id = 2,
+                  Name = "Lara Gatchalian",
+                  Course = Course.BSCS,
+                  DateEnrolled = DateTime.Parse("28/09/2020")
+              },
               new Student()
-                {
-                    Id = 3,
-                    Name = "Esther Avila",
-                    Course = Course.BSIS,
-                    DateEnrolled = DateTime.Parse("28/09/2020")
-                }
-            };
+              {
+                  Id = 3,
+                  Name = "Esther Avila",
+                  Course = Course.BSIS,
+                  DateEnrolled = DateTime.Parse("28/09/2020")
+              });
 
-            InstructorList = new List<Instructor>()
-                {
-                   new Instructor()
+            modelBuilder.Entity<Instructor>().HasData(
+                new Instructor()
                 {
                     Id = 1,
                     FirstName = "Ariana",
@@ -74,10 +73,7 @@ namespace ChavezLA1.Services
                     Rank = Rank.AssociateProfessor,
                     IsTenured = IsTenured.Permanent,
                     HiringDate = DateTime.Parse("07/09/2020")
-                },
-            };
-
+           });
         }
-
     }
 }

@@ -1,9 +1,15 @@
+using ChavezLA1.Data;
 using ChavezLA1.Services;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddSingleton<IMyFakeDataService, MyFakeDataService>();
+//builder.Services.AddSingleton<IMyFakeDataService, MyFakeDataService>();
+
+//Database Connection Service
+builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
@@ -13,6 +19,11 @@ if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
 }
+
+//Database
+var context = app.Services.CreateScope().ServiceProvider.GetRequiredService<AppDbContext>();context.Database.EnsureCreated();
+//if our database does not exist, then create it!
+
 app.UseStaticFiles();
 
 app.UseRouting();
