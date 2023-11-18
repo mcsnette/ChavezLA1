@@ -1,15 +1,18 @@
 ﻿using ChavezLA1.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace ChavezLA1.Data
 {
-    public class AppDbContext : DbContext
+    public class AppDbContext : IdentityDbContext<User>  // DbContext 
     {
         public DbSet<Student> Students { get; set; }
         public DbSet <Instructor> Instructors { get; set; }
 
         //constructor
         public AppDbContext(DbContextOptions<AppDbContext>options) : base(options) {}
+
+        //data seeding
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

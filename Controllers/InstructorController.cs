@@ -3,6 +3,7 @@ using ChavezLA1.Models;
 using ChavezLA1.Services;
 using ChavezLA1.Data;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ChavezLA1.Controllers
 {
@@ -36,9 +37,15 @@ namespace ChavezLA1.Controllers
         {
             return View();
         }
+        [Authorize]
         [HttpPost]
         public IActionResult AddInstructor(Instructor newInstructor)
         {
+            if (!ModelState.IsValid) //if the data is invalid
+            {
+                return View();//go back to the VIew
+            }
+
             _dbContext.Instructors.Add(newInstructor);
             _dbContext.SaveChanges();
             return RedirectToAction("Index");
@@ -63,6 +70,12 @@ namespace ChavezLA1.Controllers
                 Instructor.Rank = instructorChange.Rank;
                 Instructor.HiringDate = instructorChange.HiringDate;
             }
+
+            if (!ModelState.IsValid) //if the data is invalid
+            {
+                return View();//go back to the VIew
+            }
+
             _dbContext.SaveChanges();
             return RedirectToAction("Index");
         }
